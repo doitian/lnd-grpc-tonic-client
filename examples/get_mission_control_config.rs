@@ -23,7 +23,5 @@ async fn main() -> Result<(), Box<dyn Error>> {
             .await,
     );
 
-    println!("hello");
-
     Ok(())
 }
