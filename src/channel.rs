@@ -24,7 +24,7 @@ pub type Channel = InterceptedService<TlsChannel, MacaroonInterceptor>;
 
 #[derive(Error, Debug)]
 pub enum Error {
-    #[error("data store disconnected")]
+    #[error("OpenSSL error: {0}")]
     OpensslErrorStack(#[from] openssl::error::ErrorStack),
 }
 
