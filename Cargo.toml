@@ -2,6 +2,10 @@
 name = "lnd-grpc-tonic-client"
 version = "0.1.0"
 edition = "2021"
+description = "Rust lnd client using tonic and tonic-openssl"
+license-file = "LICENSE"
+homepage = "https://github.com/doitian/lnd-grpc-tonic-client"
+repository = "https://github.com/doitian/lnd-grpc-tonic-client"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
