@@ -1,3 +1,6 @@
+///! Rust binding for the lnd grpc client.
+///!
+///! Example: <https://github.com/doitian/lnd-grpc-tonic-client/tree/main/examples>
 pub mod lnrpc;
 pub mod routerrpc;
 
