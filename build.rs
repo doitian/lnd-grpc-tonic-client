@@ -15,5 +15,14 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             .out_dir("src")
             .compile(&["proto/lnrpc/routerrpc/router.proto"], &["proto/lnrpc"])?;
     }
+    if !out_dir.join("invoicesrpc.rs").exists() {
+        tonic_build::configure()
+            .build_server(false)
+            .out_dir("src")
+            .compile(
+                &["proto/lnrpc/invoicesrpc/invoices.proto"],
+                &["proto/lnrpc"],
+            )?;
+    }
     Ok(())
 }
