@@ -31,15 +31,17 @@ pub enum Error {
 pub async fn connect_lnd(
     uri: Uri,
     cert: Option<&[u8]>,
-    macaroon: &[u8],
+    macaroon: Option<&[u8]>,
 ) -> Result<InterceptedService<TlsChannel, MacaroonInterceptor>, Error> {
     let tls_channel = TlsChannel::new(uri, cert).await?;
-    let macaroon = hex::encode(macaroon)
-        .parse()
-        .expect("hex must be valid ascii");
+    let macaroon_meta = macaroon.map(|macaroon| {
+        hex::encode(macaroon)
+            .parse()
+            .expect("hex must be valid ascii")
+    });
     Ok(InterceptedService::new(
         tls_channel,
-        MacaroonInterceptor(macaroon),
+        MacaroonInterceptor(macaroon_meta),
     ))
 }
 
@@ -93,15 +95,17 @@ impl Service<Request<BoxBody>> for TlsChannel {
 }
 
 #[derive(Clone, Debug)]
-pub struct MacaroonInterceptor(MetadataValue<Ascii>);
+pub struct MacaroonInterceptor(Option<MetadataValue<Ascii>>);
 
 impl Interceptor for MacaroonInterceptor {
     fn call(
         &mut self,
         mut request: tonic::Request<()>,
     ) -> Result<tonic::Request<()>, tonic::Status> {
-        let metadata = request.metadata_mut();
-        metadata.insert("macaroon", self.0.clone());
+        if let Some(macroon) = &self.0 {
+            let metadata = request.metadata_mut();
+            metadata.insert("macaroon", macroon.clone());
+        }
         Ok(request)
     }
 }

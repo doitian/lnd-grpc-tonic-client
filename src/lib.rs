@@ -1,7 +1,10 @@
-///! Rust binding for the lnd grpc client.
-///!
-///! Example: <https://github.com/doitian/lnd-grpc-tonic-client/tree/main/examples>
+/**
+! Rust binding for the lnd grpc client.
+!
+! Example: <https://github.com/doitian/lnd-grpc-tonic-client/tree/main/examples>
+*/
 pub mod invoicesrpc;
+#[allow(clippy::large_enum_variant)]
 pub mod lnrpc;
 pub mod routerrpc;
 
@@ -17,7 +20,7 @@ pub type InvoicesClient = invoicesrpc::invoices_client::InvoicesClient<channel::
 pub async fn create_lightning_client(
     uri: Uri,
     cert: Option<&[u8]>,
-    macaroon: &[u8],
+    macaroon: Option<&[u8]>,
 ) -> Result<LightningClient, channel::Error> {
     connect_lnd(uri, cert, macaroon)
         .await
@@ -27,7 +30,7 @@ pub async fn create_lightning_client(
 pub async fn create_router_client(
     uri: Uri,
     cert: Option<&[u8]>,
-    macaroon: &[u8],
+    macaroon: Option<&[u8]>,
 ) -> Result<RouterClient, channel::Error> {
     connect_lnd(uri, cert, macaroon)
         .await
@@ -37,7 +40,7 @@ pub async fn create_router_client(
 pub async fn create_invoices_client(
     uri: Uri,
     cert: Option<&[u8]>,
-    macaroon: &[u8],
+    macaroon: Option<&[u8]>,
 ) -> Result<InvoicesClient, channel::Error> {
     connect_lnd(uri, cert, macaroon)
         .await

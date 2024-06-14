@@ -16,7 +16,8 @@ async fn main() -> Result<(), Box<dyn Error>> {
     ))
     .await?;
 
-    let mut invoices_client = create_invoices_client(uri.parse()?, Some(&cert), &macaroon).await?;
+    let mut invoices_client =
+        create_invoices_client(uri.parse()?, Some(&cert), Some(&macaroon)).await?;
     println!(
         "response: {:?}",
         invoices_client
